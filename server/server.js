@@ -3,7 +3,7 @@ const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
 
-const authRoutes = require("./routes/auth"); // Auth routes for login/register
+//const authRoutes = require("./routes/auth"); // Auth routes for login/register
 const expenseRoutes = require("./routes/route"); // Expense routes
 
 const app = express();
@@ -21,7 +21,7 @@ mongoose.connect(process.env.MONGO_URI)
   });
 
 // Routes
-app.use("/api/auth", authRoutes);
+//app.use("/api/auth", authRoutes);
 app.use("/api/expenses", expenseRoutes);
 
 const PORT = process.env.PORT || 5000;
