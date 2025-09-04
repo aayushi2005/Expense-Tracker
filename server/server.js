@@ -2,9 +2,11 @@ require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
+const path = require("path");
 
-//const authRoutes = require("./routes/auth"); // Auth routes for login/register
-const expenseRoutes = require("./routes/route"); // Expense routes
+// Routes
+// const authRoutes = require("./routes/auth"); // Uncomment if you add auth later
+const expenseRoutes = require("./routes/route");
 
 const app = express();
 
@@ -20,20 +22,17 @@ mongoose.connect(process.env.MONGO_URI)
     process.exit(1);
   });
 
-// Routes
-//app.use("/api/auth", authRoutes);
+// API Routes
+// app.use("/api/auth", authRoutes);
 app.use("/api/expenses", expenseRoutes);
-
-const path = require("path");
 
 // Serve frontend build files
 app.use(express.static(path.join(__dirname, "../client/build")));
 
-// All other GET requests return the frontend's index.html
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "../client/build", "index.html"));
+// Catch-all route for React frontend
+app.get("/*", (req, res) => {
+  res.sendFile(path.resolve(__dirname, "../client/build", "index.html"));
 });
-
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
