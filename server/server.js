@@ -5,7 +5,7 @@ const mongoose = require("mongoose");
 const path = require("path");
 
 // Routes
-// const authRoutes = require("./routes/auth"); // Uncomment if you add auth later
+// const authRoutes = require("./routes/auth");
 const expenseRoutes = require("./routes/route");
 
 const app = express();
@@ -23,14 +23,13 @@ mongoose.connect(process.env.MONGO_URI)
   });
 
 // API Routes
-// app.use("/api/auth", authRoutes);
 app.use("/api/expenses", expenseRoutes);
 
-// Serve frontend build files
+// Serve frontend build
 app.use(express.static(path.join(__dirname, "../client/build")));
 
-// Catch-all route for React frontend
-app.get("/*", (req, res) => {
+// Catch-all for React (safe for Render)
+app.use((req, res) => {
   res.sendFile(path.resolve(__dirname, "../client/build", "index.html"));
 });
 
