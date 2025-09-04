@@ -24,6 +24,17 @@ mongoose.connect(process.env.MONGO_URI)
 //app.use("/api/auth", authRoutes);
 app.use("/api/expenses", expenseRoutes);
 
+const path = require("path");
+
+// Serve frontend build files
+app.use(express.static(path.join(__dirname, "../client/build")));
+
+// All other GET requests return the frontend's index.html
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "../client/build", "index.html"));
+});
+
+
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`🚀 Server running on port ${PORT}`);
